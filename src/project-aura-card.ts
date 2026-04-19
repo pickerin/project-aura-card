@@ -27,7 +27,7 @@ import { renderGraphsSection } from './sections/graphs-section';
 const tileStylesSheet = unsafeCSS(tileStyles);
 const statusBannerStylesSheet = unsafeCSS(statusBannerStyles);
 
-const CARD_VERSION = '0.2.2';
+const CARD_VERSION = '0.2.3';
 const DEFAULT_PREFIX = 'project_aura';
 
 @customElement('project-aura-card')
