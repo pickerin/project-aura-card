@@ -27,7 +27,7 @@ The card uses standard Lovelace APIs and HA CSS custom properties — it works o
 
 1. Open HACS in your Home Assistant sidebar.
 2. Click the three-dot menu → **Custom repositories**.
-3. Add `https://github.com/pickerin/project-aura-card` with category **Lovelace**.
+3. Add `https://github.com/pickerin/project-aura-card` with category **Dashboard**.
 4. Search for "Project Aura Card" and click **Download**.
 5. Add the resource: **Settings → Dashboards → Resources** → `+ Add resource`
    - URL: `/hacsfiles/project-aura-card/project-aura-card.js`
