@@ -51,6 +51,17 @@ The card uses standard Lovelace APIs and HA CSS custom properties — it works o
 
 The card registers itself with HA's custom card picker, so it appears in the **Add Card** dialog as "Project Aura Card".
 
+### Full-width layout (Sections view)
+
+In a Sections dashboard view (HA 2024.1+), add `layout_options` to span the full row:
+
+```yaml
+type: custom:project-aura-card
+entity_prefix: project_aura
+layout_options:
+  grid_columns: full
+```
+
 ### YAML
 
 **Basic — single sensor, all defaults:**
