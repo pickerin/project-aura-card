@@ -254,8 +254,14 @@ export class ProjectAuraCard extends LitElement {
       font-family: 'Roboto Mono', monospace;
       font-size: 0.8rem;
     }
+    .graphs-row {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+    }
     .graph-container {
-      width: 100%;
+      flex: 1;
+      min-width: 0;
     }
     ${tileStylesSheet}
     ${statusBannerStylesSheet}

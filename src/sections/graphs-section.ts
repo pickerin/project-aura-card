@@ -14,8 +14,10 @@ export function renderGraphsSection(): TemplateResult {
       <ha-icon icon="mdi:chart-line"></ha-icon>
       <span>Graphs</span>
     </div>
-    <div id="graph-temperature" class="graph-container"></div>
-    <div id="graph-humidity" class="graph-container"></div>
-    <div id="graph-co2" class="graph-container"></div>
+    <div class="graphs-row">
+      <div id="graph-temperature" class="graph-container"></div>
+      <div id="graph-humidity" class="graph-container"></div>
+      <div id="graph-co2" class="graph-container"></div>
+    </div>
   `;
 }

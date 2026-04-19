@@ -90,9 +90,11 @@ function e(e,t,i,s){var n,r=arguments.length,o=r<3?t:null===s?s=Object.getOwnPro
       <ha-icon icon="mdi:chart-line"></ha-icon>
       <span>Graphs</span>
     </div>
-    <div id="graph-temperature" class="graph-container"></div>
-    <div id="graph-humidity" class="graph-container"></div>
-    <div id="graph-co2" class="graph-container"></div>
+    <div class="graphs-row">
+      <div id="graph-temperature" class="graph-container"></div>
+      <div id="graph-humidity" class="graph-container"></div>
+      <div id="graph-co2" class="graph-container"></div>
+    </div>
   `}</div>`:W}
         </div>
       </ha-card>
@@ -178,8 +180,14 @@ function e(e,t,i,s){var n,r=arguments.length,o=r<3?t:null===s?s=Object.getOwnPro
       font-family: 'Roboto Mono', monospace;
       font-size: 0.8rem;
     }
+    .graphs-row {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+    }
     .graph-container {
-      width: 100%;
+      flex: 1;
+      min-width: 0;
     }
     ${je}
     ${ze}
