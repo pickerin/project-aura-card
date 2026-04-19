@@ -77,6 +77,12 @@ export class ProjectAuraCard extends LitElement {
     super.updated(changedProps);
     if (!this._config || !this.hass) return;
     if (this._config.show_graphs === false) return;
+    void this._updateGraphCards();
+  }
+
+  private async _updateGraphCards(): Promise<void> {
+    const helpers = await (window as any).loadCardHelpers?.();
+    if (!helpers) return;
 
     const prefix = this._config.entity_prefix ?? DEFAULT_PREFIX;
     const graphs = [
@@ -91,12 +97,13 @@ export class ProjectAuraCard extends LitElement {
 
       let card = this._graphCards.get(key);
       if (!card) {
-        card = document.createElement('hui-history-graph-card') as HTMLElement;
-        (card as any).setConfig({
+        card = await helpers.createCardElement({
+          type: 'history-graph',
           entities: [{ entity }],
           hours_to_show: 24,
           title,
         });
+        if (!card) continue;
         container.appendChild(card);
         this._graphCards.set(key, card);
       }
