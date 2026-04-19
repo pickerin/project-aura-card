@@ -99,7 +99,7 @@ export class ProjectAuraCard extends LitElement {
       if (!card) {
         card = await helpers.createCardElement({
           type: 'history-graph',
-          entities: [{ entity }],
+          entities: [{ entity, name: title }],
           hours_to_show: 24,
           title,
         });
@@ -262,6 +262,9 @@ export class ProjectAuraCard extends LitElement {
     .graph-container {
       flex: 1;
       min-width: 0;
+      --ha-card-box-shadow: none;
+      --ha-card-border-width: 0px;
+      --ha-card-border-color: transparent;
     }
     ${tileStylesSheet}
     ${statusBannerStylesSheet}
