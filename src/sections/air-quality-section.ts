@@ -34,6 +34,12 @@ function airStatusSeverity(status: string | null): Severity {
   }
 }
 
+function mainIssueSeverity(issue: string | null, fallback: Severity): Severity {
+  if (!issue) return 'unknown';
+  if (issue.toLowerCase() === 'clear') return 'green';
+  return fallback;
+}
+
 export function renderAirQualitySection(
   hass: HomeAssistant,
   prefix: string
@@ -68,7 +74,7 @@ export function renderAirQualitySection(
         label: 'Main Issue',
         value: mainIssue.rawState ?? '--',
         unit: null,
-        severity: overallSeverity,
+        severity: mainIssueSeverity(mainIssue.rawState, overallSeverity),
       })}
     </div>
   `;

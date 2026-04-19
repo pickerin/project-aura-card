@@ -30,7 +30,7 @@ import { renderFanSection } from './sections/fan-section';
 const tileStylesSheet = unsafeCSS(tileStyles);
 const statusBannerStylesSheet = unsafeCSS(statusBannerStyles);
 
-const CARD_VERSION = '0.3.0';
+const CARD_VERSION = '0.3.1';
 const DEFAULT_PREFIX = 'project_aura';
 
 @customElement('project-aura-card')
