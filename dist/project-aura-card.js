@@ -223,9 +223,9 @@ function e(e,t,i,n){var s,r=arguments.length,o=r<3?t:null===n?n=Object.getOwnPro
       align-items: center;
       gap: 6px;
       padding: 10px 6px;
-      background: var(--secondary-background-color, rgba(255, 255, 255, 0.05));
+      background: var(--card-background-color, #1c1c1c);
+      border: 1px solid var(--divider-color, rgba(255, 255, 255, 0.12));
       border-radius: 12px;
-      border: none;
       cursor: pointer;
       color: var(--primary-text-color);
       flex: 1;
@@ -281,4 +281,4 @@ function e(e,t,i,n){var s,r=arguments.length,o=r<3?t:null===n?n=Object.getOwnPro
     }
     ${Be}
     ${Fe}
-  `,e([de({attribute:!1})],qe.prototype,"hass",void 0),e([function(e){return de({...e,state:!0,attribute:!1})}()],qe.prototype,"_config",void 0),qe=e([(e=>(t,i)=>{void 0!==i?i.addInitializer(()=>{customElements.define(e,t)}):customElements.define(e,t)})("project-aura-card")],qe);const Ge=window;Ge.customCards=Ge.customCards??[],Ge.customCards.push({type:"project-aura-card",name:"Project Aura Card",description:"Mirrors the physical Project Aura air quality monitor display with firmware-aligned severity thresholds.",preview:!0,documentationURL:"https://github.com/pickerin/project-aura-card"}),console.info("%c PROJECT-AURA-CARD %c v0.2.6 ","color: white; background: #43a047; font-weight: 700;","color: #43a047; background: white; font-weight: 700;");export{qe as ProjectAuraCard};
+  `,e([de({attribute:!1})],qe.prototype,"hass",void 0),e([function(e){return de({...e,state:!0,attribute:!1})}()],qe.prototype,"_config",void 0),qe=e([(e=>(t,i)=>{void 0!==i?i.addInitializer(()=>{customElements.define(e,t)}):customElements.define(e,t)})("project-aura-card")],qe);const Ge=window;Ge.customCards=Ge.customCards??[],Ge.customCards.push({type:"project-aura-card",name:"Project Aura Card",description:"Mirrors the physical Project Aura air quality monitor display with firmware-aligned severity thresholds.",preview:!0,documentationURL:"https://github.com/pickerin/project-aura-card"}),console.info("%c PROJECT-AURA-CARD %c v0.2.7 ","color: white; background: #43a047; font-weight: 700;","color: #43a047; background: white; font-weight: 700;");export{qe as ProjectAuraCard};

@@ -28,7 +28,7 @@ import { renderControlsSection } from './sections/controls-section';
 const tileStylesSheet = unsafeCSS(tileStyles);
 const statusBannerStylesSheet = unsafeCSS(statusBannerStyles);
 
-const CARD_VERSION = '0.2.6';
+const CARD_VERSION = '0.2.7';
 const DEFAULT_PREFIX = 'project_aura';
 
 @customElement('project-aura-card')
@@ -277,9 +277,9 @@ export class ProjectAuraCard extends LitElement {
       align-items: center;
       gap: 6px;
       padding: 10px 6px;
-      background: var(--secondary-background-color, rgba(255, 255, 255, 0.05));
+      background: var(--card-background-color, #1c1c1c);
+      border: 1px solid var(--divider-color, rgba(255, 255, 255, 0.12));
       border-radius: 12px;
-      border: none;
       cursor: pointer;
       color: var(--primary-text-color);
       flex: 1;
