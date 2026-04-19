@@ -22,6 +22,7 @@ import { renderComfortSection } from './sections/comfort-section';
 import { renderParticulatesSection } from './sections/particulates-section';
 import { renderGasesSection } from './sections/gases-section';
 import { renderPressureSection } from './sections/pressure-section';
+import { renderGraphsSection } from './sections/graphs-section';
 
 const tileStylesSheet = unsafeCSS(tileStyles);
 const statusBannerStylesSheet = unsafeCSS(statusBannerStyles);
@@ -33,6 +34,7 @@ const DEFAULT_PREFIX = 'project_aura';
 export class ProjectAuraCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
   @state() private _config!: CardConfig;
+  private _graphCards: Map<string, HTMLElement> = new Map();
 
   public static getStubConfig(): CardConfig {
     return {
@@ -41,6 +43,7 @@ export class ProjectAuraCard extends LitElement {
       title: 'Air Quality',
       show_status_banner: true,
       show_pressure_section: true,
+      show_graphs: true,
       compact: false,
     };
   }
@@ -53,6 +56,7 @@ export class ProjectAuraCard extends LitElement {
       entity_prefix: DEFAULT_PREFIX,
       show_status_banner: true,
       show_pressure_section: true,
+      show_graphs: true,
       compact: false,
       ...config,
     };
@@ -65,7 +69,39 @@ export class ProjectAuraCard extends LitElement {
     size += 2;
     size += 2;
     if (this._config?.show_pressure_section) size += 2;
+    if (this._config?.show_graphs !== false) size += 6;
     return size;
+  }
+
+  protected updated(changedProps: PropertyValues): void {
+    super.updated(changedProps);
+    if (!this._config || !this.hass) return;
+    if (this._config.show_graphs === false) return;
+
+    const prefix = this._config.entity_prefix ?? DEFAULT_PREFIX;
+    const graphs = [
+      { key: 'temperature', entity: `sensor.${prefix}_temperature`, title: 'Temperature' },
+      { key: 'humidity', entity: `sensor.${prefix}_humidity`, title: 'Humidity' },
+      { key: 'co2', entity: `sensor.${prefix}_co2`, title: 'CO2 Concentration' },
+    ];
+
+    for (const { key, entity, title } of graphs) {
+      const container = this.shadowRoot?.querySelector(`#graph-${key}`);
+      if (!container) continue;
+
+      let card = this._graphCards.get(key);
+      if (!card) {
+        card = document.createElement('hui-history-graph-card') as HTMLElement;
+        (card as any).setConfig({
+          entities: [{ entity }],
+          hours_to_show: 24,
+          title,
+        });
+        container.appendChild(card);
+        this._graphCards.set(key, card);
+      }
+      (card as any).hass = this.hass;
+    }
   }
 
   protected shouldUpdate(changedProps: PropertyValues): boolean {
@@ -133,6 +169,9 @@ export class ProjectAuraCard extends LitElement {
           <div class="section">${renderGasesSection(this.hass, prefix)}</div>
           ${this._config.show_pressure_section !== false
             ? html`<div class="section">${renderPressureSection(this.hass, prefix)}</div>`
+            : nothing}
+          ${this._config.show_graphs !== false
+            ? html`<div class="section">${renderGraphsSection()}</div>`
             : nothing}
         </div>
       </ha-card>
@@ -207,6 +246,9 @@ export class ProjectAuraCard extends LitElement {
       border-radius: 3px;
       font-family: 'Roboto Mono', monospace;
       font-size: 0.8rem;
+    }
+    .graph-container {
+      width: 100%;
     }
     ${tileStylesSheet}
     ${statusBannerStylesSheet}
