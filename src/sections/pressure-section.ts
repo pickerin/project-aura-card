@@ -46,10 +46,11 @@ export function renderPressureSection(
   prefix: string
 ): TemplateResult {
   const pressure = resolveEntity(hass, prefix, 'pressure');
+  const pressureAbsolute = resolveEntity(hass, prefix, 'pressure_absolute');
   const delta3h = resolveEntity(hass, prefix, 'pressure_delta_3h');
   const delta24h = resolveEntity(hass, prefix, 'pressure_delta_24h');
 
-  if (!pressure.available) return html`${nothing}`;
+  if (!pressure.available && !pressureAbsolute.available) return html`${nothing}`;
 
   return html`
     <div class="section-header">
@@ -57,12 +58,18 @@ export function renderPressureSection(
       <span>Pressure</span>
     </div>
     <div class="section-grid pressure-grid">
-      ${renderTile({
+      ${pressure.available ? renderTile({
         label: 'MSL Pressure',
         value: formatReading(pressure, pressure.unit === 'inHg' ? 2 : 1),
         unit: pressure.unit,
         severity: 'green',
-      })}
+      }) : nothing}
+      ${pressureAbsolute.available ? renderTile({
+        label: 'Abs Pressure',
+        value: formatReading(pressureAbsolute, pressureAbsolute.unit === 'inHg' ? 2 : 1),
+        unit: pressureAbsolute.unit,
+        severity: 'green',
+      }) : nothing}
       ${renderTile({
         label: '3h Trend',
         value: formatDelta(delta3h.numericValue, delta3h.unit),

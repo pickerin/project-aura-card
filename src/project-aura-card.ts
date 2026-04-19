@@ -24,11 +24,13 @@ import { renderGasesSection } from './sections/gases-section';
 import { renderPressureSection } from './sections/pressure-section';
 import { renderGraphsSection } from './sections/graphs-section';
 import { renderControlsSection } from './sections/controls-section';
+import { renderAirQualitySection } from './sections/air-quality-section';
+import { renderFanSection } from './sections/fan-section';
 
 const tileStylesSheet = unsafeCSS(tileStyles);
 const statusBannerStylesSheet = unsafeCSS(statusBannerStyles);
 
-const CARD_VERSION = '0.2.7';
+const CARD_VERSION = '0.3.0';
 const DEFAULT_PREFIX = 'project_aura';
 
 @customElement('project-aura-card')
@@ -43,7 +45,9 @@ export class ProjectAuraCard extends LitElement {
       entity_prefix: DEFAULT_PREFIX,
       title: 'Air Quality',
       show_status_banner: true,
+      show_air_quality: true,
       show_controls: true,
+      show_fan: true,
       show_pressure_section: true,
       show_graphs: true,
       compact: false,
@@ -57,7 +61,9 @@ export class ProjectAuraCard extends LitElement {
     this._config = {
       entity_prefix: DEFAULT_PREFIX,
       show_status_banner: true,
+      show_air_quality: true,
       show_controls: true,
+      show_fan: true,
       show_pressure_section: true,
       show_graphs: true,
       compact: false,
@@ -68,12 +74,14 @@ export class ProjectAuraCard extends LitElement {
   public getCardSize(): number {
     let size = 1;
     if (this._config?.show_status_banner) size += 1;
-    if (this._config?.show_controls !== false) size += 2;
-    size += 2;
-    size += 2;
-    size += 2;
+    if (this._config?.show_air_quality !== false) size += 2;
+    size += 2; // comfort
+    size += 2; // particulates
+    size += 2; // gases
     if (this._config?.show_pressure_section) size += 2;
     if (this._config?.show_graphs !== false) size += 6;
+    if (this._config?.show_fan !== false) size += 3;
+    if (this._config?.show_controls !== false) size += 2;
     return size;
   }
 
@@ -175,8 +183,8 @@ export class ProjectAuraCard extends LitElement {
           ${this._config.show_status_banner !== false
             ? renderStatusBanner(this.hass, prefix)
             : nothing}
-          ${this._config.show_controls !== false
-            ? html`<div class="section">${renderControlsSection(this.hass, prefix, this._config.device_ip)}</div>`
+          ${this._config.show_air_quality !== false
+            ? html`<div class="section">${renderAirQualitySection(this.hass, prefix)}</div>`
             : nothing}
           <div class="section">${renderComfortSection(this.hass, prefix)}</div>
           <div class="section">${renderParticulatesSection(this.hass, prefix)}</div>
@@ -186,6 +194,12 @@ export class ProjectAuraCard extends LitElement {
             : nothing}
           ${this._config.show_graphs !== false
             ? html`<div class="section">${renderGraphsSection()}</div>`
+            : nothing}
+          ${this._config.show_fan !== false
+            ? html`<div class="section">${renderFanSection(this.hass, prefix)}</div>`
+            : nothing}
+          ${this._config.show_controls !== false
+            ? html`<div class="section">${renderControlsSection(this.hass, prefix, this._config.device_ip)}</div>`
             : nothing}
         </div>
       </ha-card>

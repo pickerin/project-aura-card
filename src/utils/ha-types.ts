@@ -43,7 +43,9 @@ export interface CardConfig {
   entity_prefix?: string;
   title?: string;
   show_status_banner?: boolean;
+  show_air_quality?: boolean;
   show_controls?: boolean;
+  show_fan?: boolean;
   device_ip?: string;
   show_pressure_section?: boolean;
   show_graphs?: boolean;

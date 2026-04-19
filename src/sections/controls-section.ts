@@ -7,7 +7,7 @@ import { html, nothing, TemplateResult } from 'lit';
 import { HomeAssistant } from '../utils/ha-types';
 import { resolveSwitch } from '../utils/entity-resolver';
 
-interface ControlTile {
+export interface ControlTile {
   label: string;
   icon: string;
   available: boolean;
@@ -16,7 +16,7 @@ interface ControlTile {
   onTap: () => void;
 }
 
-function renderControlTile(tile: ControlTile): TemplateResult {
+export function renderControlTile(tile: ControlTile): TemplateResult {
   return html`
     <button
       class="control-tile"
