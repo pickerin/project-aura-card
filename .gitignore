@@ -19,3 +19,6 @@ Thumbs.db
 
 # Build artifacts (dist/ is intentionally tracked for HACS serving)
 *.tsbuildinfo
+
+# Local development notes
+RESUME.md
