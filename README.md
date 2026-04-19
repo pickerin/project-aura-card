@@ -14,8 +14,8 @@ A Home Assistant Lovelace card that mirrors the physical display of the [Project
 
 | Firmware | Home Assistant | Card version |
 |----------|---------------|-------------|
-| v1.0.x   | 2025.x+       | v0.1.x      |
-| v1.1.x   | 2025.x+       | v0.1.x      |
+| v1.0.x   | 2025.x+       | v0.3.x      |
+| v1.1.x   | 2025.x+       | v0.3.x      |
 
 The card uses standard Lovelace APIs and HA CSS custom properties — it works on any HA theme.
 
@@ -72,6 +72,15 @@ entity_prefix: project_aura
 title: Air Quality
 ```
 
+**With device dashboard link:**
+
+```yaml
+type: custom:project-aura-card
+entity_prefix: project_aura
+title: Air Quality
+device_ip: 192.168.1.42
+```
+
 **Multi-device — two sensors on different topics:**
 
 ```yaml
@@ -91,7 +100,11 @@ cards:
 type: custom:project-aura-card
 entity_prefix: project_aura
 show_status_banner: false
+show_air_quality: false
 show_pressure_section: false
+show_graphs: false
+show_fan: false
+show_controls: false
 ```
 
 ---
@@ -104,57 +117,132 @@ show_pressure_section: false
 | `entity_prefix` | string | `project_aura` | MQTT base topic / entity name prefix. All entities are expected as `sensor.<prefix>_*`. |
 | `title` | string | _(none)_ | Optional card title. Omit to hide the header row. |
 | `show_status_banner` | boolean | `true` | Show the top-of-card overall status banner. |
-| `show_pressure_section` | boolean | `true` | Show the Pressure section (barometric pressure + altitude). |
+| `show_air_quality` | boolean | `true` | Show the Air Quality section (AQI score, Air Status, Main Issue). |
+| `show_pressure_section` | boolean | `true` | Show the Pressure section (MSL pressure, absolute pressure, 3h/24h trends). |
 | `show_graphs` | boolean | `true` | Show the Graphs section with 24-hour history charts for Temperature, Humidity, and CO2. |
-| `device_ip` | string | _(none)_ | IP address of the Project Aura device (e.g. `192.168.1.42`). When set, a **Dashboard** button appears in the Controls section that opens `http://<device_ip>/dashboard` in a new tab. The Project Aura firmware does not publish its IP over MQTT, so this must be set manually. Recommended: assign a static DHCP reservation to the device so the IP never changes. |
-| `compact` | boolean | `false` | Reserved for a future compact layout. Has no effect in v0.1.x. |
+| `show_fan` | boolean | `true` | Show the Ventilation section. Automatically hidden if no fan hardware is detected. |
+| `show_controls` | boolean | `true` | Show the Controls section (Night Mode, Backlight, Alert Blink, Restart, and optionally Dashboard). |
+| `device_ip` | string | _(none)_ | IP address of the Project Aura device (e.g. `192.168.1.42`). When set, a **Dashboard** button appears in the Controls section that opens `http://<device_ip>/dashboard` in a new tab. The firmware does not publish its IP over MQTT, so this must be set manually. Recommended: assign a static DHCP reservation so the IP never changes. |
+| `compact` | boolean | `false` | Reserved for a future compact layout. Has no effect currently. |
 
 ---
 
 ## Sections and entities
 
+Sections appear in this order (top to bottom):
+
+1. Status Banner
+2. Air Quality
+3. Comfort
+4. Particulates
+5. Gases
+6. Pressure
+7. Graphs
+8. Ventilation *(only if fan hardware detected)*
+9. Controls
+
+### Air Quality
+
+Firmware-calculated aggregate metrics. Section is hidden if none of these entities exist.
+
+| Tile | Entity | Notes |
+|------|--------|-------|
+| AQI | `sensor.<prefix>_aqi` | 0–100 aggregate score |
+| Status | `sensor.<prefix>_air_status` | Excellent / Good / Fair / Poor |
+| Main Issue | `sensor.<prefix>_main_issue` | Dominant pollutant or "Clear" |
+
 ### Comfort
 
 | Tile | Entity | Unit |
 |------|--------|------|
-| Temperature | `sensor.<prefix>_temperature` | °C or °F (auto-detected) |
-| Humidity | `sensor.<prefix>_humidity` | % |
-| Dew Point | `sensor.<prefix>_dew_point` | °C or °F (auto-detected) |
-| Abs. Humidity | `sensor.<prefix>_absolute_humidity` | g/m³ |
-| Mold Risk | computed client-side | 0–10 |
+| Temp | `sensor.<prefix>_temperature` | °C or °F (auto-detected) |
+| RH | `sensor.<prefix>_humidity` | % |
+| AH | `sensor.<prefix>_absolute_humidity` | g/m³ |
+| DP | `sensor.<prefix>_dew_point` | °C or °F (auto-detected) |
+| MR | computed client-side | 0–10 Mold Risk index |
 
-### Particulates (SPS30)
+### Particulates (SEN66)
 
-| Tile | Entity |
-|------|--------|
-| PM0.5 | `sensor.<prefix>_pm0_5` |
-| PM1.0 | `sensor.<prefix>_pm1_0` |
-| PM2.5 | `sensor.<prefix>_pm2_5` |
-| PM4.0 | `sensor.<prefix>_pm4_0` |
-| PM10 | `sensor.<prefix>_pm10` |
+| Tile | Entity | Unit |
+|------|--------|------|
+| PM0.5 | `sensor.<prefix>_pm0_5` | #/cm³ |
+| PM1.0 | `sensor.<prefix>_pm1_0` | µg/m³ |
+| PM2.5 | `sensor.<prefix>_pm2_5` | µg/m³ |
+| PM4.0 | `sensor.<prefix>_pm4_0` | µg/m³ |
+| PM10 | `sensor.<prefix>_pm10` | µg/m³ |
 
 ### Gases
 
 | Tile | Entity | Notes |
 |------|--------|-------|
-| CO2 | `sensor.<prefix>_co2` | SCD4x |
-| VOC Index | `sensor.<prefix>_voc_index` | SGP41 |
-| NOx Index | `sensor.<prefix>_nox_index` | SGP41 |
-| CO | `sensor.<prefix>_co` | Hidden if entity absent |
+| CO2 | `sensor.<prefix>_co2` | SEN66 |
+| VOC Index | `sensor.<prefix>_voc_index` | SEN66; hidden during warmup |
+| NOx Index | `sensor.<prefix>_nox_index` | SEN66; hidden during warmup |
+| CO | `sensor.<prefix>_co` | Optional hardware; hidden if entity absent |
 | HCHO | `sensor.<prefix>_hcho` | Hidden if entity absent |
 
 ### Pressure
 
-| Tile | Entity |
-|------|--------|
-| Pressure | `sensor.<prefix>_pressure` |
-| Altitude | `sensor.<prefix>_altitude` |
+| Tile | Entity | Notes |
+|------|--------|-------|
+| MSL Pressure | `sensor.<prefix>_pressure` | Altitude-corrected if configured |
+| Abs Pressure | `sensor.<prefix>_pressure_absolute` | Raw uncorrected pressure |
+| 3h Trend | `sensor.<prefix>_pressure_delta_3h` | |
+| 24h Trend | `sensor.<prefix>_pressure_delta_24h` | |
+
+### Graphs
+
+24-hour history charts embedded using HA's native history-graph card. Theme-adaptive.
+
+| Graph | Entity |
+|-------|--------|
+| Temperature | `sensor.<prefix>_temperature` |
+| Humidity | `sensor.<prefix>_humidity` |
+| CO2 Concentration | `sensor.<prefix>_co2` |
+
+### Ventilation
+
+Only shown when `sensor.<prefix>_fan_status` exists and is not unavailable (i.e. fan hardware is detected).
+
+**Status tiles:**
+
+| Tile | Entity | Notes |
+|------|--------|-------|
+| Status | `sensor.<prefix>_fan_status` | RUNNING / STOPPED / FAULT / OFFLINE |
+| Output | `sensor.<prefix>_fan_output_percent` | % |
+| Speed | `number.<prefix>_fan_manual_percent` | Current manual speed % |
+| Timer | `sensor.<prefix>_fan_timer_remaining` | Countdown text |
+| Fault | `binary_sensor.<prefix>_fan_fault` | Yes / No |
+
+**Mode controls:**
+
+| Control | Entity |
+|---------|--------|
+| Auto | `switch.<prefix>_fan_auto` |
+| Manual | `switch.<prefix>_fan_manual` |
+| Stop | `switch.<prefix>_fan_stop` |
+
+### Controls
+
+| Control | Entity | Notes |
+|---------|--------|-------|
+| Night Mode | `switch.<prefix>_night_mode` | Unavailable when auto-night is enabled |
+| Backlight | `switch.<prefix>_backlight` | |
+| Alert Blink | `switch.<prefix>_alert_blink` | |
+| Restart | `button.<prefix>_restart` | |
+| Dashboard | *(opens browser tab)* | Only shown when `device_ip` is set |
 
 ---
 
 ## Severity thresholds
 
 Thresholds are copied verbatim from the Project Aura firmware. If the firmware is updated, open a PR updating `src/utils/thresholds.ts`.
+
+### AQI (aggregate score)
+
+| Green | Yellow | Orange | Red |
+|-------|--------|--------|-----|
+| 0–25 | 26–50 | 51–75 | 76–100 |
 
 ### One-sided metrics (higher = worse)
 
@@ -214,6 +302,18 @@ The card looks for `sensor.<prefix>_co2` or `sensor.<prefix>_temperature`. If ne
 **CO / HCHO tiles not showing**
 
 Those sensors are optional hardware add-ons. The tiles only appear when the corresponding entities exist in HA.
+
+**Ventilation section not showing**
+
+The section is hidden when no fan hardware is detected. If a fan is installed, check that `sensor.<prefix>_fan_status` exists in Developer Tools → States.
+
+**VOC / NOx tiles showing `--`**
+
+The SEN66 gas sensors require a short warmup period on startup. The card shows `--` until the warmup flag clears (typically within 10 seconds of the device coming online).
+
+**Dashboard button not appearing in Controls**
+
+The Dashboard button only appears when `device_ip` is set in the card config. Add `device_ip: <your-device-ip>` to your card YAML.
 
 **Values look right but colors seem off**
 
