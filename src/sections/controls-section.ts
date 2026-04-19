@@ -49,7 +49,8 @@ function buttonStateLabel(state: string | null): string {
 
 export function renderControlsSection(
   hass: HomeAssistant,
-  prefix: string
+  prefix: string,
+  deviceIp?: string
 ): TemplateResult | typeof nothing {
   const nightMode = resolveSwitch(hass, prefix, 'night_mode');
   const backlight = resolveSwitch(hass, prefix, 'backlight');
@@ -109,6 +110,14 @@ export function renderControlsSection(
         stateLabel: buttonStateLabel(restartEntity?.state ?? null),
         onTap: () => press(restartEntityId),
       })}
+      ${deviceIp ? renderControlTile({
+        label: 'Dashboard',
+        icon: 'mdi:web',
+        available: true,
+        isOn: false,
+        stateLabel: 'Open',
+        onTap: () => window.open(`http://${deviceIp}/dashboard`, '_blank'),
+      }) : nothing}
     </div>
   `;
 }

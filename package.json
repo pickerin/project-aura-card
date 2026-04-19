@@ -1,6 +1,6 @@
 {
   "name": "project-aura-card",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Home Assistant Lovelace card mirroring the physical Project Aura air quality monitor display.",
   "main": "dist/project-aura-card.js",
   "type": "module",

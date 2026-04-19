@@ -44,6 +44,7 @@ export interface CardConfig {
   title?: string;
   show_status_banner?: boolean;
   show_controls?: boolean;
+  device_ip?: string;
   show_pressure_section?: boolean;
   show_graphs?: boolean;
   compact?: boolean;

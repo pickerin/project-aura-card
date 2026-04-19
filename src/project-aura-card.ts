@@ -28,7 +28,7 @@ import { renderControlsSection } from './sections/controls-section';
 const tileStylesSheet = unsafeCSS(tileStyles);
 const statusBannerStylesSheet = unsafeCSS(statusBannerStyles);
 
-const CARD_VERSION = '0.2.5';
+const CARD_VERSION = '0.2.6';
 const DEFAULT_PREFIX = 'project_aura';
 
 @customElement('project-aura-card')
@@ -176,7 +176,7 @@ export class ProjectAuraCard extends LitElement {
             ? renderStatusBanner(this.hass, prefix)
             : nothing}
           ${this._config.show_controls !== false
-            ? html`<div class="section">${renderControlsSection(this.hass, prefix)}</div>`
+            ? html`<div class="section">${renderControlsSection(this.hass, prefix, this._config.device_ip)}</div>`
             : nothing}
           <div class="section">${renderComfortSection(this.hass, prefix)}</div>
           <div class="section">${renderParticulatesSection(this.hass, prefix)}</div>
@@ -267,22 +267,23 @@ export class ProjectAuraCard extends LitElement {
       gap: 8px;
     }
     .controls-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
+      flex-direction: row;
       gap: 8px;
     }
     .control-tile {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
+      gap: 6px;
+      padding: 10px 6px;
       background: var(--secondary-background-color, rgba(255, 255, 255, 0.05));
       border-radius: 12px;
       border: none;
       cursor: pointer;
       color: var(--primary-text-color);
-      width: 100%;
-      text-align: left;
+      flex: 1;
+      text-align: center;
       transition: filter 0.15s ease;
     }
     .control-tile:hover {
@@ -297,8 +298,8 @@ export class ProjectAuraCard extends LitElement {
       filter: none;
     }
     .control-icon-circle {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -312,20 +313,20 @@ export class ProjectAuraCard extends LitElement {
       color: var(--accent-color, #ff9800);
     }
     .control-icon-circle ha-icon {
-      --mdc-icon-size: 22px;
+      --mdc-icon-size: 20px;
     }
     .control-label {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 1px;
     }
     .control-name {
-      font-size: 0.9rem;
+      font-size: 0.75rem;
       font-weight: 500;
       line-height: 1.2;
     }
     .control-state {
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       color: var(--secondary-text-color);
     }
     .graph-container {

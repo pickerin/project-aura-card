@@ -106,6 +106,7 @@ show_pressure_section: false
 | `show_status_banner` | boolean | `true` | Show the top-of-card overall status banner. |
 | `show_pressure_section` | boolean | `true` | Show the Pressure section (barometric pressure + altitude). |
 | `show_graphs` | boolean | `true` | Show the Graphs section with 24-hour history charts for Temperature, Humidity, and CO2. |
+| `device_ip` | string | _(none)_ | IP address of the Project Aura device (e.g. `192.168.1.42`). When set, a **Dashboard** button appears in the Controls section that opens `http://<device_ip>/dashboard` in a new tab. The Project Aura firmware does not publish its IP over MQTT, so this must be set manually. Recommended: assign a static DHCP reservation to the device so the IP never changes. |
 | `compact` | boolean | `false` | Reserved for a future compact layout. Has no effect in v0.1.x. |
 
 ---
