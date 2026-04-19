@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# npm logs
+npm-debug.log*
+npm-error.log*
+package-lock.json
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts (dist/ is intentionally tracked for HACS serving)
+*.tsbuildinfo

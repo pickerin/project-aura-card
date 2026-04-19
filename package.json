@@ -1,0 +1,45 @@
+{
+  "name": "project-aura-card",
+  "version": "0.1.0",
+  "description": "Home Assistant Lovelace card mirroring the physical Project Aura air quality monitor display.",
+  "main": "dist/project-aura-card.js",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c --watch",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pickerin/project-aura-card.git"
+  },
+  "keywords": [
+    "home-assistant",
+    "lovelace",
+    "lovelace-custom-card",
+    "project-aura",
+    "air-quality",
+    "hacs"
+  ],
+  "author": "Robert A. Pickering Jr.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pickerin/project-aura-card/issues"
+  },
+  "homepage": "https://github.com/pickerin/project-aura-card#readme",
+  "dependencies": {
+    "lit": "^3.1.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "rollup": "^4.9.0",
+    "tslib": "^2.6.0",
+    "typescript": "^5.3.0"
+  }
+}
