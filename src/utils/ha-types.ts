@@ -43,6 +43,7 @@ export interface CardConfig {
   entity_prefix?: string;
   title?: string;
   show_status_banner?: boolean;
+  show_controls?: boolean;
   show_pressure_section?: boolean;
   show_graphs?: boolean;
   compact?: boolean;

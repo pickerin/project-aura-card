@@ -23,11 +23,12 @@ import { renderParticulatesSection } from './sections/particulates-section';
 import { renderGasesSection } from './sections/gases-section';
 import { renderPressureSection } from './sections/pressure-section';
 import { renderGraphsSection } from './sections/graphs-section';
+import { renderControlsSection } from './sections/controls-section';
 
 const tileStylesSheet = unsafeCSS(tileStyles);
 const statusBannerStylesSheet = unsafeCSS(statusBannerStyles);
 
-const CARD_VERSION = '0.2.3';
+const CARD_VERSION = '0.2.5';
 const DEFAULT_PREFIX = 'project_aura';
 
 @customElement('project-aura-card')
@@ -42,6 +43,7 @@ export class ProjectAuraCard extends LitElement {
       entity_prefix: DEFAULT_PREFIX,
       title: 'Air Quality',
       show_status_banner: true,
+      show_controls: true,
       show_pressure_section: true,
       show_graphs: true,
       compact: false,
@@ -55,6 +57,7 @@ export class ProjectAuraCard extends LitElement {
     this._config = {
       entity_prefix: DEFAULT_PREFIX,
       show_status_banner: true,
+      show_controls: true,
       show_pressure_section: true,
       show_graphs: true,
       compact: false,
@@ -65,6 +68,7 @@ export class ProjectAuraCard extends LitElement {
   public getCardSize(): number {
     let size = 1;
     if (this._config?.show_status_banner) size += 1;
+    if (this._config?.show_controls !== false) size += 2;
     size += 2;
     size += 2;
     size += 2;
@@ -171,6 +175,9 @@ export class ProjectAuraCard extends LitElement {
           ${this._config.show_status_banner !== false
             ? renderStatusBanner(this.hass, prefix)
             : nothing}
+          ${this._config.show_controls !== false
+            ? html`<div class="section">${renderControlsSection(this.hass, prefix)}</div>`
+            : nothing}
           <div class="section">${renderComfortSection(this.hass, prefix)}</div>
           <div class="section">${renderParticulatesSection(this.hass, prefix)}</div>
           <div class="section">${renderGasesSection(this.hass, prefix)}</div>
@@ -259,12 +266,71 @@ export class ProjectAuraCard extends LitElement {
       flex-direction: row;
       gap: 8px;
     }
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .control-tile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--secondary-background-color, rgba(255, 255, 255, 0.05));
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      color: var(--primary-text-color);
+      width: 100%;
+      text-align: left;
+      transition: filter 0.15s ease;
+    }
+    .control-tile:hover {
+      filter: brightness(1.1);
+    }
+    .control-tile:active {
+      filter: brightness(0.9);
+    }
+    .control-tile:disabled {
+      opacity: 0.4;
+      cursor: default;
+      filter: none;
+    }
+    .control-icon-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: rgba(120, 120, 128, 0.2);
+      color: var(--secondary-text-color);
+    }
+    .control-icon-circle--on {
+      background: color-mix(in srgb, var(--accent-color, #ff9800) 20%, transparent);
+      color: var(--accent-color, #ff9800);
+    }
+    .control-icon-circle ha-icon {
+      --mdc-icon-size: 22px;
+    }
+    .control-label {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .control-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+    .control-state {
+      font-size: 0.8rem;
+      color: var(--secondary-text-color);
+    }
     .graph-container {
       flex: 1;
       min-width: 0;
-      --ha-card-box-shadow: none;
-      --ha-card-border-width: 0px;
-      --ha-card-border-color: transparent;
     }
     ${tileStylesSheet}
     ${statusBannerStylesSheet}
