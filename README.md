@@ -105,6 +105,7 @@ show_pressure_section: false
 | `title` | string | _(none)_ | Optional card title. Omit to hide the header row. |
 | `show_status_banner` | boolean | `true` | Show the top-of-card overall status banner. |
 | `show_pressure_section` | boolean | `true` | Show the Pressure section (barometric pressure + altitude). |
+| `show_graphs` | boolean | `true` | Show the Graphs section with 24-hour history charts for Temperature, Humidity, and CO2. |
 | `compact` | boolean | `false` | Reserved for a future compact layout. Has no effect in v0.1.x. |
 
 ---
