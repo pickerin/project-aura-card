@@ -14,6 +14,8 @@ A Home Assistant Lovelace card that mirrors the physical display of the [Project
 
 The bundle also registers `project-aura-compact-card`, a small dashboard card that mimics the physical device's touchscreen: dark tile grid, glowing severity pips, the CO2 bar gauge, pressure trend pills, and the status banner. Same entities, same firmware-matched thresholds, a fraction of the space.
 
+![Project Aura Compact Card](screenshot-compact.png)
+
 ```yaml
 type: custom:project-aura-compact-card
 entity_prefix: project_aura
