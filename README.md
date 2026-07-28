@@ -6,7 +6,7 @@
 
 A Home Assistant Lovelace card that mirrors the physical display of the [Project Aura](https://github.com/21cncstudio/project_aura) DIY air quality sensor. Severity thresholds are copied directly from the firmware source — the card and the device always agree on what's good, elevated, poor, or hazardous.
 
-![Screenshot placeholder](screenshot.png)
+![Project Aura Card](screenshot.png)
 
 ---
 
