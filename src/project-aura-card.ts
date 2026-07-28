@@ -26,11 +26,12 @@ import { renderGraphsSection } from './sections/graphs-section';
 import { renderControlsSection } from './sections/controls-section';
 import { renderAirQualitySection } from './sections/air-quality-section';
 import { renderFanSection } from './sections/fan-section';
+import './project-aura-compact-card';
 
 const tileStylesSheet = unsafeCSS(tileStyles);
 const statusBannerStylesSheet = unsafeCSS(statusBannerStyles);
 
-const CARD_VERSION = '0.3.2';
+const CARD_VERSION = '0.4.0';
 const DEFAULT_PREFIX = 'project_aura';
 
 @customElement('project-aura-card')

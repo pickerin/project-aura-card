@@ -19,7 +19,7 @@ import { renderTile } from '../utils/tile-template';
  * Meteorological rule of thumb: hPa changes over 3h/24h that indicate
  * significant weather movement. Equivalent inHg thresholds computed at runtime.
  */
-function deltaSeverity(deltaHpa: number | null, windowHours: 3 | 24): Severity {
+export function deltaSeverity(deltaHpa: number | null, windowHours: 3 | 24): Severity {
   if (deltaHpa === null) return 'unknown';
   const absDelta = Math.abs(deltaHpa);
   if (windowHours === 3) {
