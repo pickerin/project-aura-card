@@ -1,6 +1,6 @@
 # Project Aura Card
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-blue.svg)](https://github.com/hacs/integration)
 [![GitHub release](https://img.shields.io/github/release/pickerin/project-aura-card.svg)](https://github.com/pickerin/project-aura-card/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -35,6 +35,8 @@ The card uses standard Lovelace APIs and HA CSS custom properties — it works o
 ---
 
 ## Installation
+
+> **Now in the HACS default store** (August 2026): search for "Project Aura Card" directly in HACS. If you previously added this repo as a custom repository, no action is needed — your install and updates continue unchanged. You can optionally remove the custom repository entry (HACS → ⋮ → Custom repositories); the installed card is unaffected.
 
 ### Via HACS (recommended)
 
