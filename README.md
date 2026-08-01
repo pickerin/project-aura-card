@@ -36,7 +36,7 @@ The card uses standard Lovelace APIs and HA CSS custom properties — it works o
 
 ## Installation
 
-> **Now in the HACS default store** (August 2026): search for "Project Aura Card" directly in HACS. If you previously added this repo as a custom repository, no action is needed — your install and updates continue unchanged. You can optionally remove the custom repository entry (HACS → ⋮ → Custom repositories); the installed card is unaffected.
+> **Now in the HACS default store** (August 2026): search for "Project Aura Card" directly in HACS. If you previously added this repo as a custom repository, no action is needed — your install and updates continue unchanged. Keep the custom repository entry until "Project Aura Card" shows up in your HACS search results (the default-store catalog HACS downloads refreshes on a delay after inclusion): removing the entry before then makes HACS drop the card from its list. If that happens, just re-add the custom repository — your files and dashboards are untouched.
 
 ### Via HACS (recommended)
 
